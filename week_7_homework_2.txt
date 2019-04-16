@@ -1,0 +1,44 @@
+'''
+Author:Jiaqi Lin
+Date:2019-4-16
+Function:
+1、用户输入两个考试日期，程序统计这两次考试之间的成绩（即：程序可以在任意指定日期区间进行统计）
+2、计算出学生所有参与统计的考试的个人平均分，并且绘制出该班的成绩分布图（以10分为一个统计区间）
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+import csv
+
+plt.rcParams['font.sans-serif']=['SimHei']  #用来正常显示中文标签
+def print_picture(class_number,data1,data2):
+    file= csv.reader(open(class_number+'.csv','r')) 
+    a=0
+    d=[]
+    for _ in file:
+        a+=1
+        
+        if a>1:
+            Y=[]           
+            for i in range(data1,data2+1):
+                Y.append(float(_[i]))
+            c=np.average(Y)       #计算日期1和日期2之间的每个人考试的平均值
+            d.append(c)
+#生成y轴的人数
+    y=[0]*10
+    for i in range(len(d)):       
+         y[int(d[i]//10)]=y[int(d[i]//10)]+1
+
+    x=np.linspace(0,10,10) #规定x轴的点
+    x_axis=['0-10','10-20','20-30','30-40','40-50','50-60','60-70','70-80','80-90','90-100']
+    plt.bar(x,y,width=0.6,color='green')
+    plt.xticks(x, x_axis)   #令x_axis代替x
+    plt.xticks(rotation=45) # 显示x轴日期旋转45度 
+    plt.title('三_5班'+'考试成绩成绩统计')
+    plt.show()
+
+
+print("请输入两个考试日期，其中考试日期的代表序号如下：",'\n', '5：9.08 、6：9.15、7：9.29、8：月考','\n','9：10.27、10：11.14、11：12.15、12：12.31','\n','13：1.05、14：1.1、15：上平均、16：3.13','\n',' 17：3.23、18：月考2、19：4.13、20：4.26')
+data1=int(input('请输入日期1：'))
+data2=int(input('请输入日期2：'))
+
+print_picture('F:\\Code\\python文件\\three_5',data1,data2)

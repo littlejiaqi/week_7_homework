@@ -1,0 +1,37 @@
+'''
+Author:Jiaqi Lin
+Date:2019-4-16
+Function:利用numpy、matplotlib处理每个学生的考试成绩并给每个学生的成绩绘成折线图
+'''
+
+import numpy as np
+import matplotlib.pyplot as plt
+import csv
+
+plt.rcParams['font.sans-serif']=['SimHei']  #用来正常显示中文标签
+def print_picture(class_number):
+    file= csv.reader(open(class_number+'.csv','r')) 
+    a=0
+    for _ in file:
+        a+=1
+        if a==1:
+            x_axis=_[5:len(_)]    #获取x轴范围
+        if a>1:
+                y=[]
+                for i in range(5,len(_)):
+                    y.append(float(_[i]))
+                title_=_[0]
+                name=_[3]
+                x=np.linspace(1,len(_)-5,len(_)-5)  #规定x轴的点
+                plt.plot(x,y,'r.-',label='成绩曲线')
+                plt.legend(loc='1')
+                plt.xticks(x, x_axis)   #令x_axis代替x
+                plt.ylim(0,100)         #规定y轴范围（0,100）
+                plt.xticks(rotation=45) # 显示x轴日期旋转90度 
+                plt.title(title_)
+                plt.savefig('G:\\python作业\\'+str(class_number[17:23])+name+'.png')   #图片命名
+                plt.close()
+   
+print_picture('F:\\Code\\python文件\\three_5')
+print_picture('F:\\Code\\python文件\\three_8')
+print_picture('F:\\Code\\python文件\\three_9')
